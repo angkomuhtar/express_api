@@ -33,11 +33,14 @@ const Applicants = db.define(
     religion: DataTypes.STRING(60),
     hobby: DataTypes.STRING(100),
     id_card: DataTypes.STRING(100),
+    tempat_lahir: DataTypes.STRING(50),
+    tgl_lahir: DataTypes.DATEONLY,
     height: DataTypes.INTEGER(10),
     weight: DataTypes.INTEGER(10),
     gender: DataTypes.ENUM("M", "F"),
     married: DataTypes.STRING(25),
     residence: DataTypes.STRING(25),
+    vehicle: DataTypes.STRING(25),
     health: DataTypes.STRING(25),
     pantangan: DataTypes.TEXT,
     last_sick: DataTypes.TEXT,
@@ -90,5 +93,5 @@ Applicants.hasMany(ApplQuestion, {
   foreignKey: "appl_id",
 });
 
-Applicants.sync();
+Applicants.sync({ alter: true });
 export default Applicants;

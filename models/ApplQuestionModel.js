@@ -3,7 +3,7 @@ import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 const ApplQuestion = db.define(
-  "appl_experience",
+  "appl_question",
   {
     id: {
       type: DataTypes.INTEGER(10),

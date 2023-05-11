@@ -213,16 +213,18 @@ export const postQuestion = async (req, res) => {
 };
 
 export const getResume = async (req, res) => {
-  const user = await Applicants.findAll({ limit: 10, offset: 0 });
+  const pageIndex = parseInt(req.query?.pageIndex) || 0;
+  const { count, rows } = await Applicants.findAndCountAll({
+    order: [["created_at", "DESC"]],
+    limit: 10,
+    offset: pageIndex * 10,
+  });
 
-  // // console.log(user.toJSON());
-  // user.map((e) => {
-  //   console.log(e.nama);
-  // });
-  res.status(200).json({ data: user });
+  res.status(200).json({ data: rows, totalRow: count });
 };
 
 export const getDetails = async (req, res) => {
+  console.log(req.query);
   const user = await Applicants.findByPk(req.params.id, {
     include: [
       "contact",
@@ -234,5 +236,5 @@ export const getDetails = async (req, res) => {
       "question",
     ],
   });
-  res.status(200).json({ data: user });
+  res.status(200).json({ user });
 };
