@@ -40,5 +40,5 @@ const ApplQuestion = db.define(
     updatedAt: "updated_at",
   }
 );
-
+ApplQuestion.sync({});
 export default ApplQuestion;

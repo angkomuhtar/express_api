@@ -34,5 +34,6 @@ const ApplCourse = db.define(
     updatedAt: "updated_at",
   }
 );
+ApplCourse.sync();
 
 export default ApplCourse;

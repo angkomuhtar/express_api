@@ -51,4 +51,5 @@ const ApplFamily = db.define(
   }
 );
 
+ApplFamily.sync();
 export default ApplFamily;

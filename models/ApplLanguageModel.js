@@ -30,5 +30,6 @@ const ApplLanguage = db.define(
     updatedAt: "updated_at",
   }
 );
+ApplLanguage.sync({});
 
 export default ApplLanguage;

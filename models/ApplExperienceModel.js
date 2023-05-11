@@ -45,5 +45,5 @@ const ApplExperience = db.define(
     updatedAt: "updated_at",
   }
 );
-
+ApplExperience.sync();
 export default ApplExperience;

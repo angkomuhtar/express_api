@@ -3,6 +3,10 @@ import db from "../config/Database.js";
 import ApplCourse from "./ApplCourseModel.js";
 import ApplEducation from "./ApplEducationModel.js";
 import ApplLanguage from "./ApplLanguageModel.js";
+import ApplContact from "./ApplContactModel.js";
+import ApplFamily from "./ApplFamilyModel.js";
+import ApplExperience from "./ApplExperienceModel.js";
+import ApplQuestion from "./ApplQuestionModel.js";
 
 const { DataTypes } = Sequelize;
 const Applicants = db.define(
@@ -49,8 +53,8 @@ const Applicants = db.define(
   }
 );
 
-Applicants.hasMany(ApplEducation, {
-  as: "education",
+Applicants.hasMany(ApplContact, {
+  as: "contact",
   sourceKey: "id",
   foreignKey: "appl_id",
 });
@@ -60,11 +64,31 @@ Applicants.hasMany(ApplCourse, {
   sourceKey: "id",
   foreignKey: "appl_id",
 });
-
+Applicants.hasMany(ApplEducation, {
+  as: "education",
+  sourceKey: "id",
+  foreignKey: "appl_id",
+});
+Applicants.hasMany(ApplExperience, {
+  as: "experience",
+  sourceKey: "id",
+  foreignKey: "appl_id",
+});
+Applicants.hasMany(ApplFamily, {
+  as: "family",
+  sourceKey: "id",
+  foreignKey: "appl_id",
+});
 Applicants.hasMany(ApplLanguage, {
   as: "language",
   sourceKey: "id",
   foreignKey: "appl_id",
 });
+Applicants.hasMany(ApplQuestion, {
+  as: "question",
+  sourceKey: "id",
+  foreignKey: "appl_id",
+});
 
+Applicants.sync();
 export default Applicants;

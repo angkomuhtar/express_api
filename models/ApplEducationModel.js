@@ -35,5 +35,5 @@ const ApplEducation = db.define(
     updatedAt: "updated_at",
   }
 );
-
+ApplEducation.sync();
 export default ApplEducation;

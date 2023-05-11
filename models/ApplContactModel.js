@@ -40,4 +40,5 @@ const ApplContact = db.define(
   }
 );
 
+ApplContact.sync({});
 export default ApplContact;
