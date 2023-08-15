@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODMxNzcxMDUsImV4cCI6MTY4MzE3NzE2NX0.bJ3KwjQ2o4zfU9M4e5T61tpqO_mjScWOUqa1oob333Y
 ###
 
-GET http://localhost:3002/v1/auth/refresh_token
+GET http://localhost:3004/v1/auth/refresh_token
 Content-Type: application/json
 
 ###
@@ -15,3 +15,8 @@ Content-Type: application/json
     "email": "admin",
     "password" : "kopidingin"
 }
+
+###
+
+GET http://localhost:3004/v1/auth/logout
+Content-Type: application/json

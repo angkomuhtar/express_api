@@ -1,8 +1,5 @@
-import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import UsersGroup from "./UsersGroupModel.js";
-
-const { DataTypes } = Sequelize;
+import { DataTypes } from "sequelize";
 const Users = db.define(
   "users",
   {
@@ -32,6 +29,7 @@ const Users = db.define(
       defaultValue: "Y",
     },
     refresh_token: DataTypes.TEXT,
+    phone_id: DataTypes.TEXT,
   },
   {
     freezeTableName: true,
@@ -40,17 +38,5 @@ const Users = db.define(
     updatedAt: "updated_at",
   }
 );
-
-Users.hasMany(UsersGroup, {
-  as: "group",
-  foreignKey: "user_tipe",
-  sourceKey: "user_tipe",
-});
-
-UsersGroup.hasMany(Users, {
-  as: "user",
-  foreignKey: "user_tipe",
-  sourceKey: "user_tipe",
-});
 
 export default Users;

@@ -1,21 +1,72 @@
-import Users from "../models/UsersModel.js";
+// import Users from "../models/UsersModel.js";
 import bcrypt from "bcrypt";
-import { Op } from "sequelize";
+import { Op, where } from "sequelize";
 import jwt from "jsonwebtoken";
+import Users from "../models/UsersModel.js";
+import Profiles from "../models/ProfilesModel.js";
 
 export const Login = async (req, res) => {
-  try {
-    const user = await Users.findOne({
-      where: {
-        [Op.or]: [{ email: req.body.email }, { username: req.body.email }],
-      },
+  // return req.body;
+  if (!req?.body?.email || !req?.body?.password) {
+    res.status(400).json({
+      success: false,
+      Error: "Validation errors in your request",
+      message: "Username And Password is required",
     });
+  }
+
+  try {
+    const user = await Users.findOne(
+      {
+        where: {
+          [Op.or]: [
+            {
+              email: req.body.email,
+            },
+            {
+              username: req.body.email,
+            },
+          ],
+        },
+      },
+      { include: [{ model: Profiles, as: "profile" }] }
+    );
+
     if (!user) {
-      return res.status(400).json({ msg: "U Are a Bot" });
+      return res.status(400).json({
+        success: false,
+        Error: "Authentication Error" /* skip or optional error message */,
+        message: "User not Found",
+      });
     }
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) {
-      return res.status(400).json({ msg: "Password Not Match" });
+      return res.status(400).json({
+        success: false,
+        Error: "Authentication Error" /* skip or optional error message */,
+        message: "password missmatch",
+      });
+    }
+
+    if (req?.body?.uniqueId) {
+      if (user.phone_id == "") {
+        await Users.update(
+          {
+            phone_id: req.body.uniqueId,
+          },
+          {
+            where: {
+              id: user.id,
+            },
+          }
+        );
+      } else if (user.phone_id !== req.body.uniqueId) {
+        return res.status(400).json({
+          success: false,
+          Error: "Authentication Error" /* skip or optional error message */,
+          message: "Phone Connect to Other Device",
+        });
+      }
     }
 
     const accessToken = jwt.sign(
@@ -44,11 +95,7 @@ export const Login = async (req, res) => {
 
     await Users.update(
       { refresh_token: refreshToken },
-      {
-        where: {
-          id: user.id,
-        },
-      }
+      { where: { id: user.id } }
     );
 
     res.cookie("refreshToken", refreshToken, {
@@ -57,9 +104,9 @@ export const Login = async (req, res) => {
       //   secure : true
     });
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({ access_token: accessToken });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR CATCH: ", error);
     res.status(400).json(error);
   }
 };
@@ -99,4 +146,28 @@ export const refreshToken = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const logout = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) return res.sendStatus(204);
+  const user = await Users.findAll({
+    where: {
+      refresh_token: refreshToken,
+    },
+  });
+
+  if (!user[0]) return res.sendStatus(204);
+
+  await Users.update(
+    { refresh_token: null },
+    {
+      where: {
+        id: user[0].id,
+      },
+    }
+  );
+  res.clearCookie("refreshToken");
+  return res.sendStatus(200);
 };
