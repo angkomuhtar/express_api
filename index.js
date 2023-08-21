@@ -1,5 +1,5 @@
 import express from "express";
-import db from "./config/Database.js";
+// import db from "./config/Database.js";
 import dotenv from "dotenv";
 import routes from "./routes/index.js";
 import cookieParser from "cookie-parser";

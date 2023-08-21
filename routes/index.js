@@ -2,19 +2,22 @@ import express from "express";
 import { Login, logout, refreshToken } from "../controller/AuthController.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import "express-group-routes";
-import { Profiles, Users } from "../models/index.js";
 import {
   checkClockIn,
   getClockById,
   postClockIn,
 } from "../controller/ClockController.js";
-import moment from "moment";
+import Users from "../database/models/users.js";
 
 const routes = express.Router();
 const app = express();
 
 routes.get("/", async (req, res) => {
-  return res.json({ msg: moment().format("YYYY MM-DD HH:mm:ss") });
+  let data = await Users.findAndCountAll();
+  if (err) {
+    console.log(err);
+  }
+  return res.json({ msg: data, hash: hash });
 });
 
 routes.group("/auth", (route) => {
