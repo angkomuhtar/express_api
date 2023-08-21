@@ -21,6 +21,7 @@ Work_Time.init(
   {
     sequelize: db,
     modelName: "Work_Time",
+    tableName: "work_times",
   }
 );
 

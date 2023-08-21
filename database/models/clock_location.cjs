@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Clock_Location",
+      tableName: "clock_locations",
     }
   );
   return Clock_Location;

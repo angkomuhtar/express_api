@@ -23,6 +23,7 @@ Clock.init(
   {
     sequelize: db,
     modelName: "Clock",
+    tableName: "clocks",
   }
 );
 

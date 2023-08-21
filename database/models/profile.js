@@ -21,6 +21,7 @@ Profile.init(
   {
     sequelize: db,
     modelName: "Profile",
+    tableName: "profiles",
   }
 );
 
