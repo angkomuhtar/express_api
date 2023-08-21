@@ -11,9 +11,15 @@ module.exports = {
      *
      * Example:
      */
-    bcrypt.genSalt(parseInt(process.env.SALT_ROUND), function (err, salt) {
-      bcrypt.hash("secret", salt, async function (err, hash) {
-        // Store hash in your password DB.
+
+    bcrypt
+      .genSalt(parseInt(process.env.SALT_ROUND))
+      .then((salt) => {
+        console.log("Salt: ", salt);
+        return bcrypt.hash("secret", salt);
+      })
+      .then(async (hash) => {
+        console.log("Hash: ", hash);
         await queryInterface.bulkInsert("users", [
           {
             id: 1,
@@ -41,8 +47,8 @@ module.exports = {
             updatedAt: moment().format("YYYY-MM-DD HH:mm:ss"),
           },
         ]);
-      });
-    });
+      })
+      .catch((err) => console.error(err.message));
   },
 
   async down(queryInterface, Sequelize) {
