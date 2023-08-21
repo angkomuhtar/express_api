@@ -7,17 +7,16 @@ import {
   getClockById,
   postClockIn,
 } from "../controller/ClockController.js";
-import Users from "../database/models/users.js";
+import { Clock, Profile, Users } from "../database/models/index.js";
 
 const routes = express.Router();
 const app = express();
 
 routes.get("/", async (req, res) => {
-  let data = await Users.findAndCountAll();
-  if (err) {
-    console.log(err);
-  }
-  return res.json({ msg: data, hash: hash });
+  let data = await Clock.findAndCountAll({
+    include: [{ model: Users }],
+  });
+  return res.json({ msg: data });
 });
 
 routes.group("/auth", (route) => {

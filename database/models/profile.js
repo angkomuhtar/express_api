@@ -7,9 +7,7 @@ class Profile extends Model {
    * This method is not a part of Sequelize lifecycle.
    * The `models/index` file will call this method automatically.
    */
-  static associate(models) {
-    Profile.belongsTo(models.Users, { foreignKey: "users_id" });
-  }
+  // static associate(models) {}
 }
 Profile.init(
   {

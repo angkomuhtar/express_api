@@ -1,7 +1,7 @@
 import { Op, where } from "sequelize";
 import jwt from "jsonwebtoken";
 import moment from "moment";
-import Clock from "../database/models/clock.js";
+import { Clock, Users, Profile } from "../database/models/index.js";
 
 export const getClockById = async (req, res) => {
   try {
@@ -14,8 +14,8 @@ export const getClockById = async (req, res) => {
           where: {
             user_id: decoded.userId,
           },
-          include: ["users"],
-          order: [["created_at", "DESC"]],
+          include: [Users],
+          order: [["date", "DESC"]],
           limit: 10,
           offset: 0 * 10,
         });
@@ -67,12 +67,6 @@ export const postClockIn = async (req, res) => {
           });
         } else if (req.body?.type == "in") {
           console.log(req);
-          //       user_id: DataTypes.INTEGER,
-          // date: DataTypes.DATEONLY,
-          // clock_in: DataTypes.DATE,
-          // clock_out: DataTypes.DATE,
-          // tipe: DataTypes.ENUM("N", "NS", "DS", "OS"),
-          // status: DataTypes.ENUM("A", "I", "S", "O", "L"),
           await Clock.create({
             clock_in: timeClock,
             user_id: decoded.userId,

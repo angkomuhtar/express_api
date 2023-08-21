@@ -2,8 +2,7 @@
 import bcrypt from "bcrypt";
 import { Op, where } from "sequelize";
 import jwt from "jsonwebtoken";
-import Users from "../database/models/users.js";
-import Profile from "../database/models/profile.js";
+import { Users, Profile } from "../database/models/index.js";
 
 export const Login = async (req, res) => {
   try {

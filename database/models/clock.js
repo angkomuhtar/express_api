@@ -9,11 +9,6 @@ class Clock extends Model {
    */
   static associate(models) {
     // define association here
-    this.belongsTo(models.Work_Time, {
-      foreignKey: "tipe",
-      targetKey: "tipe",
-    });
-    this.belongsTo(models.Users, { foreignKey: "user_id" });
   }
 }
 Clock.init(
